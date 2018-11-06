@@ -1,0 +1,49 @@
+# Cucumber Linux Inittab
+#
+# Version:	1.0	2016-08-25
+#
+# Written by Scott Court (Z5T1@Z5T1.com)
+
+
+# The default runlevel for your system. The following values are permitted:
+# 0   Shutdown
+# 1   Single User Mode
+# 2   Multiuser without Networking
+# 3   Multiuser with Networking (Default)
+# 4   Same as runlevel 3
+# 5   Graphical login
+# 6   Reboot
+# Do NOT set this to 0 or 6.
+id:3:initdefault:
+
+# System initialization script. This should generally be set to /etc/rc.d/init.d/rc S
+si::sysinit:/etc/rc.d/init.d/rc S
+
+# Scripts to run for the various runlevels
+l0:0:wait:/etc/rc.d/init.d/rc 0
+l1:S1:wait:/etc/rc.d/init.d/rc 1
+l2:2:wait:/etc/rc.d/init.d/rc 2
+l3:3:wait:/etc/rc.d/init.d/rc 3
+l4:4:wait:/etc/rc.d/init.d/rc 4
+l5:5:wait:/etc/rc.d/init.d/rc 5
+l6:6:wait:/etc/rc.d/init.d/rc 6
+
+# Handle the "three finger salute"
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+
+su:S016:once:/sbin/sulogin
+
+# Respawn terminals
+1:2345:respawn:/sbin/agetty --noclear tty1 9600
+2:2345:respawn:/sbin/agetty tty2 9600
+3:2345:respawn:/sbin/agetty tty3 9600
+4:2345:respawn:/sbin/agetty tty4 9600
+5:2345:respawn:/sbin/agetty tty5 9600
+6:2345:respawn:/sbin/agetty tty6 9600
+
+# Respawn serial terminals
+# Uncomment these to enable login via a serial terminal.
+#S0:2345:respawn:/sbin/agetty -L ttyS0 9600 vt100
+#S1:2345:respawn:/sbin/agetty -L ttyS1 9600 vt100
+#S2:2345:respawn:/sbin/agetty -L ttyS2 9600 vt100
+#S3:2345:respawn:/sbin/agetty -L ttyS3 9600 vt100

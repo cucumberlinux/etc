@@ -1,0 +1,29 @@
+# If the user doesn't have a .inputrc, use the one in /etc.
+if [ ! -r "$HOME/.inputrc" ]; then
+  export INPUTRC=/etc/inputrc
+fi
+
+# Set the default system $PATH:
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/games:/usr/local/sbin:/usr/sbin:/sbin:$PATH"
+
+# Set a default shell prompt:
+export PS1='\u@\h:\W\$ '
+
+# Default umask.  A umask of 022 prevents new files from being created group
+# and world writable.
+umask 022
+
+# Add some aliases for convenience 
+alias ls='ls --color=auto'
+alias la='ls -a'
+alias ll='ls -l'
+
+# Source any files in /etc/profile.d
+if [ -d "$(dirname $(realpath $0))/profile.d" ]; then
+	source $(dirname $(realpath $0))/profile.d/*
+fi
+
+# If the user has installed fortune, display a random Bible verse
+if [ -e /usr/games/fortune -a -e /usr/share/games/fortunes/bible ]; then
+	fortune fortunes/bible
+fi
