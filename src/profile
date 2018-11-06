@@ -19,11 +19,11 @@ alias la='ls -a'
 alias ll='ls -l'
 
 # Source any files in /etc/profile.d
-if [ -d "$(dirname $(realpath $0))/profile.d" ]; then
-	source $(dirname $(realpath $0))/profile.d/*
+if [ -d "/etc/profile.d" ]; then
+	for file in $(ls /etc/profile.d); do
+		if [ -x /etc/profile.d/$file ]; then
+			source /etc/profile.d/$file
+		fi
+	done
 fi
 
-# If the user has installed fortune, display a random Bible verse
-if [ -e /usr/games/fortune -a -e /usr/share/games/fortunes/bible ]; then
-	fortune fortunes/bible
-fi
